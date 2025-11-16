@@ -15,6 +15,7 @@ import { useCircuitStore } from "../store/useCircuitStore";
 import GateNode from "./nodes/GateNode";
 import InputNode from "./nodes/InputNode";
 import OutputNode from "./nodes/OutputNode";
+import AllPanels from "./Panels";
 
 const nodeTypes = {
   inputNode: InputNode,
@@ -96,58 +97,47 @@ export default function FlowEditor() {
   }, [edges, signalMap]);
 
   return (
-    <div className="h-full w-full">
-      <div className="p-2 bg-white flex gap-2 items-center border-b">
-        <select
-          onChange={(e) => handleAddGate(e.target.value)}
-          className="border px-2 py-1 rounded"
-        >
-          <option value="">Add Gate...</option>
-          <option value="INPUT">INPUT</option>
-          <option value="OUTPUT">OUTPUT</option>
-          <option value="AND">AND</option>
-          <option value="OR">OR</option>
-          <option value="NOT">NOT</option>
-          <option value="NAND">NAND</option>
-          <option value="NOR">NOR</option>
-          <option value="XOR">XOR</option>
-          <option value="XNOR">XNOR</option>
-        </select>
-        <button
-          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          onClick={() => simulateFromInputs()}
-        >
-          Run Simulation
-        </button>
-        <button
-          className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition"
-          onClick={handleResetSignals}
-        >
-          🔄 Reset Signals
-        </button>
-        <button
-          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
-          onClick={handleClearAll}
-        >
-          Clear All
-        </button>
-        <div className="ml-auto text-sm text-gray-600">
-          Nodes: {nodes.length} | Connections: {edges.length}
+    <div className="h-full w-full flex">
+      <div className="flex-1">
+        <div className="p-2 bg-white flex gap-2 items-center border-b">
+          <button
+            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            onClick={() => simulateFromInputs()}
+          >
+            Run Simulation
+          </button>
+          <button
+            className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition"
+            onClick={handleResetSignals}
+          >
+            🔄 Reset Signals
+          </button>
+          <button
+            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
+            onClick={handleClearAll}
+          >
+            Clear All
+          </button>
+          <div className="ml-auto text-sm text-gray-600">
+            Nodes: {nodes.length} | Connections: {edges.length}
+          </div>
         </div>
-      </div>
-      <div className="h-[calc(100%-48px)]">
-        <ReactFlow
-          nodes={nodes}
-          edges={styledEdges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          nodeTypes={nodeTypes}
-          fitView
-        >
-          <Background />
-          {/* <MiniMap /> */}
-        </ReactFlow>
+
+        <div className="h-[calc(100%-48px)]">
+          <ReactFlow
+            nodes={nodes}
+            edges={styledEdges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            fitView
+          >
+            <AllPanels />
+
+            <Background />
+          </ReactFlow>
+        </div>
       </div>
     </div>
   );

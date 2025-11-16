@@ -88,8 +88,8 @@ export default function FlowEditor() {
         ...edge,
         animated: sourceSignal === 1,
         style: {
-          stroke: sourceSignal === 1 ? "#22c55e" : "#94a3b8",
-          strokeWidth: sourceSignal === 1 ? 2 : 1,
+          stroke: sourceSignal === 1 ? "#10b981" : "#d1d5db",
+          strokeWidth: 2,
         },
       };
     });

@@ -2,35 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap");
+
 html,
 body,
 #root {
   height: 100%;
+  font-family: "Rowdies", sans-serif;
 }
 
 .node {
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 10px 14px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 50px;
-}
-
-.led {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2) inset;
+  min-width: 60px;
   transition: all 0.2s ease;
+  background: #ffffff;
+  font-family: "Inter", sans-serif;
 }
 
-.edge-1 {
-  stroke: #22c55e; /* green for 1 */
-  stroke-width: 2px;
+.node:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.edge-0 {
-  stroke: #94a3b8; /* gray for 0 */
-  stroke-width: 1px;
+
+.node.selected {
+  box-shadow: 0 0 0 2px #000000;
+}
+
+/* Custom handle styles */
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background: #9ca3af;
+  transition: background 0.15s ease;
+}
+
+.react-flow__handle:hover {
+  background: #6b7280;
+}
+
+.react-flow__handle-connecting,
+.react-flow__handle-valid {
+  background: #10b981;
+}
+
+/* Edge styles */
+.react-flow__edge-path {
+  stroke-width: 1;
+  transition: stroke 0.2s ease;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #000000 !important;
+  stroke-width: 2;
 }

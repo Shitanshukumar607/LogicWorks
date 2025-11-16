@@ -1,12 +1,16 @@
 import {
+  addEdge,
+  applyEdgeChanges,
   applyNodeChanges,
   Background,
   type Node,
+  OnConnect,
+  OnEdgesChange,
   type OnNodesChange,
   ReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useCircuitStore } from "../store/useCircuitStore";
 import GateNode from "./nodes/GateNode";
 import InputNode from "./nodes/InputNode";
@@ -19,43 +23,23 @@ const nodeTypes = {
 };
 
 export default function FlowEditor() {
-  const {
-    nodes,
-    edges,
-    setNodes,
-    setEdges,
-    simulateFromInputs,
-    signalMap,
-    importData,
-    clear,
-  } = useCircuitStore();
-
-  console.log(nodes);
-
-  useEffect(() => {}, [useCircuitStore((state) => state.signalMap)]);
-
-  // const onConnect = useCallback(
-  //   (params: Connection | Edge) => {
-  //     setEdges((eds: Edge[]) => addEdge(params as Edge, eds));
-  //     // small delay then simulate
-  //     setTimeout(() => simulateFromInputs(), 50);
-  //   },
-  //   [setEdges, simulateFromInputs]
-  // );
+  const { nodes, edges, setNodes, setEdges, simulateFromInputs, signalMap } =
+    useCircuitStore();
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
 
-  // const onEdgesChange = useCallback(
-  //   (changes: EdgeChange[]) => {
-  //     setEdges((prev) => applyEdgeChanges(changes, prev));
-  //     // run simulation when wiring changes
-  //     setTimeout(() => simulateFromInputs(), 80);
-  //   },
-  //   [setEdges, simulateFromInputs]
-  // );
+  const onEdgesChange: OnEdgesChange = useCallback(
+    (changes) => setEdges((edg) => applyEdgeChanges(changes, edg)),
+    [setEdges]
+  );
+
+  const onConnect: OnConnect = useCallback(
+    (connection) => setEdges((oldEdges) => addEdge(connection, oldEdges)),
+    [setEdges]
+  );
 
   const handleAddGate = (type: string) => {
     const id = `${type}-${Date.now()}`;
@@ -125,37 +109,14 @@ export default function FlowEditor() {
         >
           Run Simulation
         </button>
-        <button
-          className="px-3 py-1 bg-gray-200 rounded"
-          onClick={() => {
-            clear();
-          }}
-        >
-          Clear Canvas
-        </button>
-        <button
-          className="px-3 py-1 bg-green-600 text-white rounded"
-          // onClick={handleSave}
-        >
-          Save JSON
-        </button>
-        <label className="px-3 py-1 bg-yellow-200 rounded cursor-pointer">
-          Load JSON
-          <input
-            type="file"
-            accept="application/json"
-            // onChange={handleLoad}
-            className="hidden"
-          />
-        </label>
       </div>
       <div className="h-[calc(100%-48px)]">
         <ReactFlow
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
-          // onEdgesChange={onEdgesChange}
-          // onConnect={onConnect}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
           nodeTypes={nodeTypes}
           fitView
         >

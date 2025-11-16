@@ -2,7 +2,7 @@ import React from "react";
 import { Handle, Position } from "@xyflow/react";
 import { useCircuitStore } from "../../store/useCircuitStore";
 
-export default function OutputNode({ id }: any) {
+export default function OutputNode({ id }: {id: string}) {
   const signal = useCircuitStore((state) => state.signalMap[id] ?? 0);
   return (
     <div className="node bg-white border">

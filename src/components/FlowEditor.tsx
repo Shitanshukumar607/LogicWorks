@@ -10,7 +10,7 @@ import {
   ReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useCircuitStore } from "../store/useCircuitStore";
 import GateNode from "./nodes/GateNode";
 import InputNode from "./nodes/InputNode";
@@ -23,8 +23,15 @@ const nodeTypes = {
 };
 
 export default function FlowEditor() {
-  const { nodes, edges, setNodes, setEdges, simulateFromInputs, signalMap } =
-    useCircuitStore();
+  const {
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    simulateFromInputs,
+    signalMap,
+    resetSignals,
+  } = useCircuitStore();
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -37,8 +44,11 @@ export default function FlowEditor() {
   );
 
   const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((oldEdges) => addEdge(connection, oldEdges)),
-    [setEdges]
+    (connection) => {
+      setEdges((oldEdges) => addEdge(connection, oldEdges));
+      setTimeout(() => simulateFromInputs(), 50);
+    },
+    [setEdges, simulateFromInputs]
   );
 
   const handleAddGate = (type: string) => {
@@ -58,39 +68,39 @@ export default function FlowEditor() {
     setNodes((prev) => [...prev, newNode]);
   };
 
-  // const handleSave = () => {
-  //   const data = { nodes, edges };
-  //   const json = JSON.stringify(data, null, 2);
-  //   const blob = new Blob([json], { type: "application/json" });
-  //   const url = URL.createObjectURL(blob);
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = "circuit.json";
-  //   a.click();
-  //   URL.revokeObjectURL(url);
-  // };
+  const handleClearAll = () => {
+    setNodes([]);
+    setEdges([]);
+    resetSignals();
+  };
 
-  // const handleLoad = (ev: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = ev.target.files?.[0];
-  //   if (!file) return;
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     try {
-  //       const data = JSON.parse(String(reader.result));
-  //       importData(data);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   };
-  //   reader.readAsText(file);
-  // };
+  const handleResetSignals = () => {
+    resetSignals();
+    // Re-run simulation with cleared signals
+    setTimeout(() => simulateFromInputs(), 50);
+  };
+
+  // Style edges based on signal values - memoized for performance
+  const styledEdges = useMemo(() => {
+    return edges.map((edge) => {
+      const sourceSignal = signalMap[edge.source];
+      return {
+        ...edge,
+        animated: sourceSignal === 1,
+        style: {
+          stroke: sourceSignal === 1 ? "#22c55e" : "#94a3b8",
+          strokeWidth: sourceSignal === 1 ? 2 : 1,
+        },
+      };
+    });
+  }, [edges, signalMap]);
 
   return (
     <div className="h-full w-full">
-      <div className="p-2 bg-white flex gap-2 items-center">
+      <div className="p-2 bg-white flex gap-2 items-center border-b">
         <select
           onChange={(e) => handleAddGate(e.target.value)}
-          className="border px-2 py-1"
+          className="border px-2 py-1 rounded"
         >
           <option value="">Add Gate...</option>
           <option value="INPUT">INPUT</option>
@@ -104,16 +114,31 @@ export default function FlowEditor() {
           <option value="XNOR">XNOR</option>
         </select>
         <button
-          className="px-3 py-1 bg-blue-600 text-white rounded"
+          className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
           onClick={() => simulateFromInputs()}
         >
           Run Simulation
         </button>
+        <button
+          className="px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition"
+          onClick={handleResetSignals}
+        >
+          🔄 Reset Signals
+        </button>
+        <button
+          className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          onClick={handleClearAll}
+        >
+          Clear All
+        </button>
+        <div className="ml-auto text-sm text-gray-600">
+          Nodes: {nodes.length} | Connections: {edges.length}
+        </div>
       </div>
       <div className="h-[calc(100%-48px)]">
         <ReactFlow
           nodes={nodes}
-          edges={edges}
+          edges={styledEdges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}

@@ -47,25 +47,40 @@ const AllPanels = () => {
     [setNodes, screenToFlowPosition]
   );
 
+  const gates = [
+    "INPUT",
+    "OUTPUT",
+    "AND",
+    "OR",
+    "NOT",
+    "NAND",
+    "NOR",
+    "XOR",
+    "XNOR",
+  ];
+
   return (
-    <Panel position="top-center">
-      <div className="w-44 p-2 bg-gray-50 border-r">
-        <div className="mb-2 font-semibold">Gates</div>
-        <div className="flex flex-col gap-2">
-          {[
-            "INPUT",
-            "OUTPUT",
-            "AND",
-            "OR",
-            "NOT",
-            "NAND",
-            "NOR",
-            "XOR",
-            "XNOR",
-          ].map((g) => (
+    <Panel position="top-center" className="px-4 pointer-events-none">
+      <div
+        className="
+        pointer-events-auto
+        flex w-full max-w-4xl items-center justify-between
+        rounded-xl border border-neutral-300/60 bg-white/70
+        px-4 py-2 shadow-sm backdrop-blur-md
+      "
+      >
+        <div className="mx-auto flex flex-1 flex-wrap items-center justify-center gap-2 sm:mx-0">
+          {gates.map((g) => (
             <DraggableNode
               key={g}
-              className="px-2 py-1 bg-white border rounded cursor-grab text-sm"
+              className="
+              rounded-md border border-neutral-300/70 bg-white/60
+              px-3 py-1.5 text-[0.75rem] font-medium text-neutral-800
+              shadow-sm backdrop-blur-sm cursor-grab
+              transition-all duration-150 ease-out
+              hover:bg-neutral-100 hover:border-neutral-400 hover:-translate-y-0.5
+              active:scale-95 select-none
+            "
               nodeType={
                 g === "INPUT"
                   ? "inputNode"
@@ -84,7 +99,12 @@ const AllPanels = () => {
   );
 };
 
-function DraggableNode({ children, nodeType, onDrop }: DraggableNodeProps) {
+function DraggableNode({
+  children,
+  className,
+  nodeType,
+  onDrop,
+}: DraggableNodeProps) {
   const draggableRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<XYPosition>({ x: 0, y: 0 });
 
@@ -105,8 +125,10 @@ function DraggableNode({ children, nodeType, onDrop }: DraggableNodeProps) {
     },
   });
 
+  const combinedClassName = ["dndnode", className].filter(Boolean).join(" ");
+
   return (
-    <div className="dndnode" ref={draggableRef}>
+    <div className={combinedClassName} ref={draggableRef}>
       {children}
     </div>
   );

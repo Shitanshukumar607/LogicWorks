@@ -14,7 +14,6 @@ export type CircuitState = {
   setEdges: (e: Edge[] | ((prev: Edge[]) => Edge[])) => void;
   updateSignal: (nodeId: string, value: 0 | 1) => void;
   simulateFromInputs: () => void;
-  resetSignals: () => void;
 };
 
 export const useCircuitStore = create<CircuitState>((set, get) => ({
@@ -44,9 +43,5 @@ export const useCircuitStore = create<CircuitState>((set, get) => ({
     const { nodes, edges, signalMap } = get();
     const newSignalMap = simulateCircuit(nodes, edges, signalMap);
     set({ signalMap: newSignalMap });
-  },
-
-  resetSignals: () => {
-    set({ signalMap: {} });
   },
 }));

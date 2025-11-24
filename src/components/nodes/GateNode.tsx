@@ -11,7 +11,7 @@ const iconPath = (fileName: string) =>
 const gateIcons: Record<GateShape, string> = {
   AND: iconPath("and"),
   OR: iconPath("or"),
-  NAND: iconPath("and"),
+  NAND: iconPath("nand"),
   NOR: iconPath("nor"),
   XOR: iconPath("xor"),
   XNOR: iconPath("xnor"),
@@ -31,36 +31,24 @@ export default function GateNode({ id, data, selected }: any) {
 
   const targetHandles = dualInputGates.includes(type)
     ? [
-        { id: "a", top: "32%" },
-        { id: "b", top: "68%" },
+        { id: "a", top: "25%" },
+        { id: "b", top: "75%" },
       ]
     : [{ id: "a", top: "50%" }];
 
   return (
     <div
-      className={`node gate-node ${selected ? "selected" : ""}`}
-      style={{
-        borderColor: signal ? "#10b981" : "#e5e7eb",
-        borderWidth: "2px",
-        padding: 0,
-        minWidth: 0,
-        minHeight: 0,
-        background: "transparent",
-        boxShadow: "none",
-        borderRadius: 0,
-        position: "relative",
-      }}
+      className={`relative flex items-center justify-center p-0 min-w-0 min-h-0 bg-transparent shadow-none rounded-none transition-all duration-200 ${
+        selected ? "ring-2 ring-black" : ""
+      }`}
     >
-      <div className="gate-visual">
-        <img src={iconSrc} alt={`${type} gate`} className="gate-icon" />
-        {(type === "NAND" || type === "XNOR") && (
-          <img
-            src={iconPath("gate-dot")}
-            alt=""
-            className="gate-bubble"
-            aria-hidden="true"
-          />
-        )}
+      <div className="flex items-center justify-center relative">
+        <img
+          src={iconSrc}
+          alt={`${type} gate`}
+          className="h-[75px] object-contain pointer-events-none"
+          style={{ fill: signal ? "#10b981" : "#e5e7eb" }}
+        />
       </div>
       {targetHandles.map((handle) => (
         <Handle

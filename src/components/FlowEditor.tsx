@@ -54,8 +54,7 @@ export default function FlowEditor() {
     const counts = new Map<string, number>();
     const bump = (key: string) => counts.set(key, (counts.get(key) ?? 0) + 1);
     edges.forEach((edge) => {
-      if (edge.targetHandle)
-        bump(handleKey(edge.target, edge.targetHandle));
+      if (edge.targetHandle) bump(handleKey(edge.target, edge.targetHandle));
     });
     return counts;
   }, [edges]);
@@ -71,7 +70,7 @@ export default function FlowEditor() {
       }
       return (handleCounts.get(handleKey(nodeId, handleId)) ?? 0) >= limit;
     },
-    [handleCounts, nodesById]
+    [handleCounts, nodesById],
   );
 
   const isValidConnection: IsValidConnection = useCallback(
@@ -85,19 +84,19 @@ export default function FlowEditor() {
       }
       return !hasReachedLimit(connection.target, connection.targetHandle);
     },
-    [hasReachedLimit]
+    [hasReachedLimit],
   );
 
   const edgeReconnectSuccessful = useRef(true);
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    [setNodes],
   );
 
   const onEdgesChange: OnEdgesChange = useCallback(
     (changes) => setEdges((edg) => applyEdgeChanges(changes, edg)),
-    [setEdges]
+    [setEdges],
   );
 
   const onConnect: OnConnect = useCallback(
@@ -112,7 +111,7 @@ export default function FlowEditor() {
       setEdges((oldEdges) => addEdge(connection, oldEdges));
       setTimeout(() => simulateFromInputs(), 50);
     },
-    [setEdges, simulateFromInputs, isValidConnection]
+    [setEdges, simulateFromInputs, isValidConnection],
   );
 
   const onReconnectStart = useCallback(() => {
@@ -129,7 +128,7 @@ export default function FlowEditor() {
       edgeReconnectSuccessful.current = true;
       setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
     },
-    [isValidConnection, setEdges]
+    [isValidConnection, setEdges],
   );
 
   const onReconnectEnd = useCallback(
@@ -139,7 +138,7 @@ export default function FlowEditor() {
       }
       edgeReconnectSuccessful.current = true;
     },
-    []
+    [],
   );
 
   const styledEdges = useMemo(() => {

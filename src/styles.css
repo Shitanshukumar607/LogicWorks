@@ -6,8 +6,16 @@ html,
 body,
 #root {
   height: 100%;
-  font-family: Assistant, system-ui, BlinkMacSystemFont, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    Assistant,
+    system-ui,
+    BlinkMacSystemFont,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
 .node {
@@ -58,4 +66,3 @@ body,
   stroke: #000000 !important;
   stroke-width: 2;
 }
-

@@ -37,14 +37,14 @@ const AllPanels = () => {
             nodeType === "INPUT"
               ? "inputNode"
               : nodeType === "OUTPUT"
-              ? "outputNode"
-              : "gateNode",
+                ? "outputNode"
+                : "gateNode",
         };
 
         setNodes((prev) => [...prev, newNode]);
       }
     },
-    [setNodes, screenToFlowPosition]
+    [setNodes, screenToFlowPosition],
   );
 
   const gates = [
@@ -85,8 +85,8 @@ const AllPanels = () => {
                 g === "INPUT"
                   ? "inputNode"
                   : g === "OUTPUT"
-                  ? "outputNode"
-                  : "gateNode"
+                    ? "outputNode"
+                    : "gateNode"
               }
               onDrop={(_, pos) => handleNodeDrop(g, pos)}
             >

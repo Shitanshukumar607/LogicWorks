@@ -27,7 +27,7 @@ export default function OutputNode({
           OUTPUT
         </div>
       </div>
-      <Handle type="target" position={Position.Left} />
+      <Handle id="target" type="target" position={Position.Left} />
     </div>
   );
 }

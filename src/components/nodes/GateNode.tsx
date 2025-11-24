@@ -67,7 +67,12 @@ export default function GateNode({ id, data, selected }: any) {
           style={{ top: handle.top }}
         />
       ))}
-      <Handle type="source" position={Position.Right} style={{ top: "50%" }} />
+      <Handle
+        id="source"
+        type="source"
+        position={Position.Right}
+        style={{ top: "50%" }}
+      />
     </div>
   );
 }

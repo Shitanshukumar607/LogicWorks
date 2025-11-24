@@ -33,7 +33,7 @@ export default function InputNode({ id, data, selected }: any) {
           INPUT
         </div>
       </div>
-      <Handle type="source" position={Position.Right} />
+      <Handle id="source" type="source" position={Position.Right} />
     </div>
   );
 }

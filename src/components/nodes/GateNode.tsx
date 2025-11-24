@@ -3,19 +3,29 @@ import { Handle, Position } from "@xyflow/react";
 import { useCircuitStore } from "../../store/useCircuitStore";
 import type { GateType } from "../../utils/gates";
 
+import AndGate from "../../assets/and.tsx";
+import OrGate from "../../assets/or.tsx";
+import NandGate from "../../assets/nand.tsx";
+import NorGate from "../../assets/nor.tsx";
+import XorGate from "../../assets/xor.tsx";
+import XnorGate from "../../assets/xnor.tsx";
+import NotGate from "../../assets/not.tsx";
+
 type GateShape = Exclude<GateType, "INPUT" | "OUTPUT">;
 
-const iconPath = (fileName: string) =>
-  new URL(`../..\/assets/${fileName}.svg`, import.meta.url).href;
+interface GateProps {
+  fill?: string;
+  className?: string;
+}
 
-const gateIcons: Record<GateShape, string> = {
-  AND: iconPath("and"),
-  OR: iconPath("or"),
-  NAND: iconPath("nand"),
-  NOR: iconPath("nor"),
-  XOR: iconPath("xor"),
-  XNOR: iconPath("xnor"),
-  NOT: iconPath("not"),
+const gateIcons: Record<GateShape, React.FC<GateProps>> = {
+  AND: AndGate,
+  OR: OrGate,
+  NAND: NandGate,
+  NOR: NorGate,
+  XOR: XorGate,
+  XNOR: XnorGate,
+  NOT: NotGate,
 };
 
 const dualInputGates: GateShape[] = ["AND", "OR", "NAND", "NOR", "XOR", "XNOR"];
@@ -27,7 +37,7 @@ export default function GateNode({ id, data, selected }: any) {
       ? "AND"
       : (rawType as GateShape);
   const signal = useCircuitStore((state) => state.signalMap[id] ?? 0);
-  const iconSrc = gateIcons[type];
+  const GateComponent = gateIcons[type];
 
   const targetHandles = dualInputGates.includes(type)
     ? [
@@ -39,15 +49,13 @@ export default function GateNode({ id, data, selected }: any) {
   return (
     <div
       className={`relative flex items-center justify-center p-0 min-w-0 min-h-0 bg-transparent shadow-none rounded-none transition-all duration-200 ${
-        selected ? "ring-2 ring-black" : ""
+        selected ? "ring-black" : ""
       }`}
     >
-      <div className="flex items-center justify-center relative">
-        <img
-          src={iconSrc}
-          alt={`${type} gate`}
-          className="h-[75px] object-contain pointer-events-none"
-          style={{ fill: signal ? "#10b981" : "#e5e7eb" }}
+      <div className="flex items-center justify-center relative ">
+        <GateComponent
+          fill={signal ? "#10b981" : "#ffffff"}
+          className="pointer-events-none h-[50px] w-full"
         />
       </div>
       {targetHandles.map((handle) => (

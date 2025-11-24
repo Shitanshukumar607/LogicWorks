@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g transform="translate(100,100)">
+    <path stroke="#000" fill="none" stroke-width="2.2"
+      transform="matrix(.45255 0 0 .45255 -36.44 88.16)"
+      stroke-linecap="square"
+      d="m78.312 44.059a4.4194 4.4194 0 1 1 -8.839 0 4.4194 4.4194 0 1 1 8.839 0z"/>
+  </g>
+</svg>

@@ -9,7 +9,7 @@ import { SignalMap } from "../store/useCircuitStore";
 export function simulateCircuit(
   nodes: Node[],
   edges: Edge[],
-  currentSignalMap: SignalMap
+  currentSignalMap: SignalMap,
 ): SignalMap {
   // Build adjacency list and edge mapping
   const adjacencyList = new Map<string, string[]>();
@@ -112,7 +112,7 @@ export function simulateCircuit(
     if (gateType && gateType !== "INPUT" && gateType !== "OUTPUT") {
       const inputConnections = edgeMap.get(nodeId) || [];
       const inputValues = inputConnections.map(
-        (conn) => newSignalMap[conn.source] ?? 0
+        (conn) => newSignalMap[conn.source] ?? 0,
       );
 
       if (inputValues.length > 0) {
@@ -137,7 +137,7 @@ export function simulateCircuit(
     neighbors.forEach((neighborId) => {
       const neighborInputs = edgeMap.get(neighborId) || [];
       const allInputsReady = neighborInputs.every((inp) =>
-        processed.has(inp.source)
+        processed.has(inp.source),
       );
 
       if (allInputsReady && !processed.has(neighborId)) {
@@ -156,7 +156,7 @@ export function simulateCircuit(
 function simulateWithCycles(
   nodes: Node[],
   edgeMap: Map<string, Array<{ source: string; sourceHandle?: string }>>,
-  initialSignalMap: SignalMap
+  initialSignalMap: SignalMap,
 ): SignalMap {
   let signalMap = { ...initialSignalMap };
   const maxIterations = 10;
@@ -182,7 +182,7 @@ function simulateWithCycles(
           }
         } else {
           const inputValues = inputConnections.map(
-            (conn) => signalMap[conn.source] ?? 0
+            (conn) => signalMap[conn.source] ?? 0,
           );
 
           if (inputValues.length > 0) {

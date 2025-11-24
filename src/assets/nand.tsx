@@ -1,0 +1,24 @@
+const NandGate = ({
+  fill,
+  className,
+}: {
+  fill?: string;
+  className?: string;
+}) => (
+  <svg
+    width="61"
+    height="31"
+    viewBox="0 0 61 31"
+    fill={fill}
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M46.0556 15.5C46.0556 7.22 39.5889 0.5 31.6111 0.5L10.5 0.502309V30.5H31.6111C39.5889 30.5 46.0556 23.78 46.0556 15.5ZM46.0556 15.5C46.0556 16.7738 47.0556 17.8077 48.2778 17.8077C49.5 17.8077 50.5 16.7738 50.5 15.5M46.0556 15.5C46.0556 14.2262 47.0556 13.1923 48.2778 13.1923C49.5 13.1923 50.5 14.2262 50.5 15.5M50.5 15.5H60.5M0.5 8H10.5M0.5 23H10.5"
+      stroke="black"
+      strokeLinecap="square"
+    />
+  </svg>
+);
+
+export default NandGate;

@@ -1,0 +1,24 @@
+const NotGate = ({
+  fill,
+  className,
+}: {
+  fill?: string;
+  className?: string;
+}) => (
+  <svg
+    width="61"
+    height="32"
+    viewBox="0 0 61 32"
+    fill={fill}
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M47.488 15.843C47.488 17.3566 46.1925 18.5703 44.5964 18.5703C43.0002 18.5703 41.7048 17.3566 41.7048 15.843C41.7048 14.343 43.0002 13.1157 44.5964 13.1157C46.1925 13.1157 47.488 14.343 47.488 15.843ZM47.488 15.843H60.5M0.5 15.843H13.512M13.512 30.843V0.84301L40.9617 15.843L13.512 30.843Z"
+      stroke="black"
+      strokeLinecap="square"
+    />
+  </svg>
+);
+
+export default NotGate;

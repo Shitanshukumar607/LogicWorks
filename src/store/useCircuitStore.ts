@@ -17,7 +17,14 @@ export type CircuitState = {
 };
 
 export const useCircuitStore = create<CircuitState>((set, get) => ({
-  nodes: [],
+  nodes: [
+    {
+      id: `INPUT-${Date.now()}`,
+      position: { x: 0, y: 0 },
+      data: { label: "INPUT", type: "INPUT" },
+      type: "inputNode",
+    },
+  ],
   edges: [],
   signalMap: {},
   setNodes: (newNodes: Node[] | ((prev: Node[]) => Node[])) =>

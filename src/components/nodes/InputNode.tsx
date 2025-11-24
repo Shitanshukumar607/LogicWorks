@@ -4,7 +4,7 @@ import { useCircuitStore } from "../../store/useCircuitStore";
 export default function InputNode({ id, data, selected }: any) {
   const update = useCircuitStore((state) => state.updateSignal);
   const signal = useCircuitStore(
-    (state) => state.signalMap[id] ?? (data?.value ? 1 : 0)
+    (state) => state.signalMap[id] ?? (data?.value ? 1 : 0),
   );
 
   const toggle = () => {
@@ -33,7 +33,7 @@ export default function InputNode({ id, data, selected }: any) {
           INPUT
         </div>
       </div>
-      <Handle type="source" position={Position.Right} />
+      <Handle id="source" type="source" position={Position.Right} />
     </div>
   );
 }
